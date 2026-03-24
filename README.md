@@ -3,7 +3,7 @@
 ## Description
 Ce script permet de maintenir la connexion Wi-Fi 5 GHz d'un routeur Asus (avec firmware Merlin) en bande **160 MHz**, même en cas de perturbations ou de changements de canal dus aux restrictions DFS (Dynamic Frequency Selection). Il est conçu pour être exécuté automatiquement via **cron** toutes les 30 minutes.
 
-**Crédit initial** : Ce script est inspiré du travail de l'utilisateur [soul4kills](https://www.snbforums.com](https://www.snbforums.com/threads/script-160mhz-channel-recovery-for-wifi-6-only-routers.96964/#post-987670)/) sur le forum [SNBForums](https://www.snbforums.com/). Merci à lui !
+**Crédit initial** : Ce script est inspiré du travail de l'utilisateur [soul4kills](https://www.snbforums.com](https://www.snbforums.com/threads/script-160mhz-channel-recovery-for-wifi-6-only-routers.96964/#post-987670/) sur le forum [SNBForums](https://www.snbforums.com/). Merci à lui !
 
 ---
 
