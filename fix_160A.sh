@@ -7,10 +7,10 @@ LOCK_FILE="/tmp/fix_160A.last_action"
 INIT_START="/jffs/scripts/init-start"
 IFACE="eth7"
 COOLDOWN=60                 # Minimum seconds between recovery attempts
-CAC_WAIT=601                 # Seconds to wait for CAC to complete
+CAC_WAIT=601                # Seconds to wait for CAC to complete
 VERBOSE=1                   # DFS status logging: 0=off, 1=basic (no DFS status), 2=verbose (all DFS status blocks)
-PREFERRED="100/160"         # Preferred 160MHz target when outside DFS blocks (149-165)
-BACKUP_FREQS="100/160"         # Backup 160MHz target when outside DFS blocks (149-165)
+PREFERRED_CHANNEL=100       # Preferred 160MHz target when outside DFS blocks (Choose 100 or 36)
+BACKUP_FREQS="100/160"      # Backup 160MHz target when outside DFS blocks (Choose 100/160 or 36/160)
 MANAGE_CRON=1               # Set to 1/0 to add/remove cron and init-start entries
 
 # -----------------------------------------
@@ -151,8 +151,8 @@ echo "$(date): [INFO] Current state [CHANSPEC=$CURRENT_SPEC]" >> "$LOG_FILE"
 # -----------------------------------------
 # 6. Check if already on 160MHz
 # -----------------------------------------
-if [ "$CURRENT_CHAN" -ge 100 ] && [ "$CURRENT_WIDTH" = "160" ]; then
-    echo "$(date): [OK] Already on 160MHz [$CURRENT_SPEC] on 100+ channel. No action needed." >> "$LOG_FILE"
+if [ "$CURRENT_CHAN" = "$PREFERRED_CHANNEL" ] && [ "$CURRENT_WIDTH" = "160" ]; then
+    echo "$(date): [OK] Already on 160MHz [$CURRENT_SPEC] on channel $PREFERRED_CHANNEL, no action needed." >> "$LOG_FILE"
     tail -n 200 "$LOG_FILE" > "$LOG_FILE.tmp" && mv "$LOG_FILE.tmp" "$LOG_FILE"
     echo "$(date): [__END] Script completed successfully" >> "$LOG_FILE"
     exit 0
@@ -170,13 +170,13 @@ log_dfs_status "PRE-MOVE" 2
 MOVED=0
 
 if [ "$CURRENT_CHAN" -ge 36 ] && [ "$CURRENT_CHAN" -le 64 ]; then
-    echo "$(date): [INFO] Channel $CURRENT_CHAN is in 36/160 block. Trying to move to $PREFERRED." >> "$LOG_FILE"
-    if try_dfs_ap_move "$PREFERRED"; then
+    echo "$(date): [INFO] Channel $CURRENT_CHAN is in 36/160 block. Trying to move to $PREFERRED_CHANNEL." >> "$LOG_FILE"
+    if try_dfs_ap_move "$PREFERRED_CHANNEL/160"; then
         MOVED=1
     fi
 elif [ "$CURRENT_CHAN" -ge 100 ] && [ "$CURRENT_CHAN" -le 128 ]; then
-    echo "$(date): [INFO] Channel $CURRENT_CHAN is in 100/160 block. Trying 100/160." >> "$LOG_FILE"
-    if try_dfs_ap_move "100/160"; then
+    echo "$(date): [INFO] Channel $CURRENT_CHAN is in 100/160 block. Trying $PREFERRED_CHANNEL." >> "$LOG_FILE"
+    if try_dfs_ap_move "$PREFERRED_CHANNEL/160"; then
         MOVED=1
     fi
 else
