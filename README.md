@@ -52,7 +52,7 @@ Ce script permet de maintenir la connexion Wi-Fi 5 GHz d'un routeur Asus (avec f
 ---
 
 ## Configuration
-- **Canaux préférés** : Modifiez la variable `PREFERRED` dans le script pour définir votre canal 160 MHz préféré (ex: `"100/160"`).
+- **Canaux préférés** : Modifiez la variable `PREFERRED_CHANNEL` dans le script pour définir votre canal 160 MHz préféré (ex: `100`).
 - **Canaux de secours** : Modifiez `BACKUP_FREQS` pour définir des canaux alternatifs.
 - **Journalisation** : Ajustez `VERBOSE` pour plus ou moins de détails dans les logs.
 
